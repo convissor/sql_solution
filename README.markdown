@@ -3,9 +3,10 @@ Overview
 
 The SQL Solution is a set of open source PHP classes to simplify integrating
 databases with web pages.  Provides a powerful, user friendly, platform
-independent API (Application Programming Interface) for MySQL, PostgreSQL,
-SQLite, SQLite3 and ODBC database management systems.  Output is XHTML
-compliant and handicapped accessible.
+independent API (Application Programming Interface) for MySQL (via PHP's
+mysql and mysqli extensions), PostgreSQL, SQLite (via PHP's sqlite and
+sqlite3 extensions) and ODBC database management systems.
+Output is XHTML compliant and handicapped accessible.
 
 Some features include:
 
