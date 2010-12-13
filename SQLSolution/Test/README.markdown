@@ -24,7 +24,22 @@ Settings
 Connection settings for each Database Management System (DBMS) type are
 stored in the `<DBMS>User.php` (e.g. `PostgreSQLUser.php`) files in the
 `sql_solution/SQLSolution` directory.
- 
+
+
+Uncomment User Error Function
+=============================
+The unit testing framework depends on receiving PHP error messages when
+problems happen.  But displaying error messages during normal operation
+is a security problem, so they are disabled.
+
+So before running PHPUnit, go to the bottom of `SQLSolution/General.php`
+and uncomment the `user_error()` call.  Don't forget to re-comment the
+line before deployment.
+
+Tip: use our Git repository when obtaining the source code and then create
+a branch for testing (`git checkout -b test`) in which you can store the
+uncommented `user_error()` can and the authentication information.
+
 
 Location to Run Test Files From
 ===============================
