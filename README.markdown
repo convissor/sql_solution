@@ -8,16 +8,16 @@ SQLite, SQLite3 and ODBC database management systems.  Output is XHTML
 compliant and handicapped accessible.
 
 Some features include:
-	* Automatically connecting to hosts and databases.
-	* Querying.
-	* Trapping errors and providing detailed descriptions about them.
-	* Escaping HTML characters before output.
-	* Converting Safe Markup tags and URI's into real HTML.
-	* Formatting results into HTML tables or lists.
-	* Generating HTML form elements based on actual database content.
-	* Producing output that's XML/XHTML compliant and accessible by disabled
-	  persons.
-	* Fostering a portable and ungradable framework.
+
+* Automatically connecting to hosts and databases.
+* Querying.
+* Trapping errors and providing detailed descriptions about them.
+* Escaping HTML characters before output.
+* Converting Safe Markup tags and URI's into real HTML.
+* Formatting results into HTML tables or lists.
+* Generating HTML form elements based on actual database content.
+* Producing output that's XML/XHTML compliant and accessible by disabled persons.
+* Fostering a portable and ungradable framework.
 
 
 Installation
