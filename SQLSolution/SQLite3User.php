@@ -29,8 +29,11 @@ class SQLSolution_SQLite3User extends SQLSolution_SQLite3Specifics {
 
 	/**
 	 * Optional flags used to determine how to open the SQLite database
+	 *
+	 * Warning: Do not set this value here.  Set it via the constructor
+	 * when instantiating this object.
+	 *
 	 * @var string
-	 * @link http://php.net/sqlite3.construct
 	 */
 	public $SQLFlags;
 
@@ -49,6 +52,7 @@ class SQLSolution_SQLite3User extends SQLSolution_SQLite3Specifics {
 	 *                    constants SQLITE3_OPEN_READONLY,
 	 *                    SQLITE3_OPEN_READWRITE, SQLITE3_OPEN_CREATE.
 	 *                    Default: SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE.
+	 *                    See http://php.net/sqlite3.construct for more info.
 	 */
 	public function __construct($Escape = 'Y', $Safe = 'N', $Flags = null) {
 		if ($Flags === null) {
