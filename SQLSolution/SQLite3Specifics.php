@@ -272,7 +272,7 @@ class SQLSolution_SQLite3Specifics extends SQLSolution_Customizations {
 	 * @link http://www.SqlSolution.info/sql-man.htm#RecordAsAssocArray
 	 */
 	public function RecordAsAssocArray($FileName, $FileLine, $SkipSafeMarkup = array()) {
-		if (!is_object($this->SQLRecordSet)) {
+		if (!is_object($this->SQLRecordSet) || !$this->SQLRecordSetRowCount) {
 			return null;
 		}
 
@@ -297,7 +297,7 @@ class SQLSolution_SQLite3Specifics extends SQLSolution_Customizations {
 	 * @link http://www.SqlSolution.info/sql-man.htm#RecordAsEnumArray
 	 */
 	public function RecordAsEnumArray($FileName, $FileLine, $SkipSafeMarkup = array()) {
-		if (!is_object($this->SQLRecordSet)) {
+		if (!is_object($this->SQLRecordSet) || !$this->SQLRecordSetRowCount) {
 			return null;
 		}
 
