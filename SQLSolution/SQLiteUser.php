@@ -30,7 +30,7 @@ class SQLSolution_SQLiteUser extends SQLSolution_SQLiteSpecifics {
 	 * Octal chmod permissions for the database file
 	 * @var string
 	 */
-	public $SQLPermissions;
+	public $SQLPermissions = '0600';
 
 
 	/**
