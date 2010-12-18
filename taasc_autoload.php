@@ -1,9 +1,12 @@
 <?php
 
 /**
- * An example of how to set up an autoloader
+ * An autoload function for software from The Analysis and Solutions Company
  *
- * NOTE: Use your own function that's set up for your environment instead.
+ * NOTE: If your system already has an autoloader, feel free to integrate the
+ * concepts in this autoload function into yours and then comment out the
+ * spl_autoload_register() call.  If you do so and also use our PHPUnit tests,
+ * don't forget to edit the bootstrap.ini file to include your autoloader.
  *
  * @package SQLSolution
  * @author Daniel Convissor <danielc@analysisandsolutions.com>
@@ -22,7 +25,7 @@ if (!defined('TAASC_DIR_INCLUDE')) {
 }
 
 /**
- * A sample autoload function
+ * An autoload function for software from The Analysis and Solutions Company
  *
  * Uses the PEAR naming convention of "_" in class names becoming "/".
  *
