@@ -5,7 +5,7 @@
  *
  * @package SQLSolution
  * @author Daniel Convissor <danielc@analysisandsolutions.com>
- * @copyright The Analysis and Solutions Company, 2001-2010
+ * @copyright The Analysis and Solutions Company, 2001-2011
  * @license http://www.analysisandsolutions.com/software/license.htm Simple Public License
  * @link http://www.analysisandsolutions.com/software/sql/sql.htm
  * @see SQLSolution/General.php
@@ -15,7 +15,7 @@
  * SQL Solution's MySQL connection information
  *
  * @author Daniel Convissor <danielc@analysisandsolutions.com>
- * @copyright The Analysis and Solutions Company, 2001-2010
+ * @copyright The Analysis and Solutions Company, 2001-2011
  * @license http://www.analysisandsolutions.com/software/license.htm Simple Public License
  * @link http://www.analysisandsolutions.com/software/sql/sql.htm
  */
