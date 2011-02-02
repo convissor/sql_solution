@@ -22,7 +22,7 @@ abstract class SQLSolution_Test_General extends PHPUnit_Extensions_OutputTestCas
 	protected function setUp() {
 		$this->sql = new SQLSolution_MySQLiUser;
 
-		if (empty($sql->SQLDbName)) {
+		if (empty($this->sql->SQLDbName)) {
 			die("ERROR: The test suite requires a database connection.\n"
 					. "Set connection info in " . get_class($this->sql) . ".\n"
 					. "See README.markdown for more information.\n\n");
