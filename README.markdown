@@ -25,8 +25,8 @@ Installation
 ============
 Location
 --------
-Place the `taasc_autoload.php` file and the `SQLSolution` directory in your
-include directory.
+Place the `autoload.php` file and the `SQLSolution` directory in your include
+directory.
 
 Autoload
 --------
@@ -37,7 +37,7 @@ SQLSolution_General class can be found in the file named
 autoload function.
 
 In fact, the SQL Solution requires the use of an autoloader.  A sample
-function is provided in `sql_solution/taasc_autoload.php`.  The given function
+function is provided in `sql_solution/autoload.php`.  The given function
 checks the current directory and subdirectories first, then tries via the
 include_path.
 
