@@ -2,7 +2,7 @@
 
 # Executes the phpunit tests for each DBMS the SQL Solution supports
 #
-# Usage:  ./allDriverTests.sh
+# Usage:  ./AllDriverTests.sh
 #
 # Author: Daniel Convissor <danielc@analysisandsolutions.com>
 # Copyright: The Analysis and Solutions Company, 2001-2010
