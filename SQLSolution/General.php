@@ -516,6 +516,17 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 	 * @link http://www.SqlSolution.info/sql-man.htm#RecordSetAsList
 	 */
 	public function RecordSetAsList($FileName, $FileLine, $Opt = '', $Col = '') {
+		echo $this->GetRecordSetAsList($FileName, $FileLine, $Opt, $Col);
+	}
+
+	/**
+	 * Returns an entire Record Set as an unordered or ordered list
+	 *
+	 * @return string
+	 *
+	 * @link http://www.SqlSolution.info/sql-man.htm#GetRecordSetAsList
+	 */
+	public function GetRecordSetAsList($FileName, $FileLine, $Opt = '', $Col = '') {
 		if (is_array($Opt)) {
 			foreach ($Opt as $Key => $Val) {
 				$Opt[$Key] = htmlspecialchars($Val);
@@ -529,19 +540,19 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 		}
 
 		if (isset($Opt['list']) && $Opt['list'] == 'ol') {
-			echo '<ol';
+			$out = '<ol';
 			$this->SQLTagStarted = 'ol';
 		} else {
-			echo '<ul';
+			$out = '<ul';
 			$this->SQLTagStarted = 'ul';
 		}
 
 		if (isset($Opt['type'])) {
-			echo ' type="' . $Opt['type'] . '"';
+			$out .= ' type="' . $Opt['type'] . '"';
 		}
 
 		if (isset($Opt['start'])) {
-			echo ' start="' . $Opt['start'] . '"';
+			$out .= ' start="' . $Opt['start'] . '"';
 		}
 
 		$Class = '';
@@ -551,14 +562,14 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 		if (isset($Opt['id'])) {
 			$Class .= ' id="' . $Opt['id'] . '"';
 		}
-		echo $Class;
+		$out .= $Class;
 
-		echo ">\n";
+		$out .= ">\n";
 
 		// If there are no records in a record set...
 		if (!$this->SQLRecordSetRowCount) {
 			// print a message saying there are no records.
-			echo " <li$Class>There are no matching records.</li>\n";
+			$out .= " <li$Class>There are no matching records.</li>\n";
 
 		} else {
 			$this->GoToRecord('GoToRecord() had error when RSAL() was '
@@ -598,13 +609,14 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 					}
 				}
 
-				echo " <li$Class>" . implode($Opt['delimiter'], $Output)
+				$out .= " <li$Class>" . implode($Opt['delimiter'], $Output)
 						. "</li>\n";
 			}
 		}
 
-		echo "</$this->SQLTagStarted>\n";
+		$out .= "</$this->SQLTagStarted>\n";
 		$this->SQLTagStarted = '';
+		return $out;
 	}
 
 	/**
@@ -615,6 +627,17 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 	 * @link http://www.SqlSolution.info/sql-man.htm#RecordSetAsTable
 	 */
 	public function RecordSetAsTable($FileName, $FileLine, $Opt = '', $Col = '') {
+		echo $this->GetRecordSetAsTable($FileName, $FileLine, $Opt, $Col);
+	}
+
+	/**
+	 * Returns an entire Record Set as an HTML table
+	 *
+	 * @return string
+	 *
+	 * @link http://www.SqlSolution.info/sql-man.htm#GetRecordSetAsTable
+	 */
+	public function GetRecordSetAsTable($FileName, $FileLine, $Opt = '', $Col = '') {
 		if (is_array($Opt)) {
 			foreach ($Opt as $Key => $Val) {
 				$Opt[$Key] = htmlspecialchars($Val);
@@ -629,28 +652,28 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 			$Wrap = '';
 		}
 
-		echo '<table';
+		$out = '<table';
 
 		if (isset($Opt['border'])) {
-			echo ' border="' . $Opt['border'] . '"';
+			$out .= ' border="' . $Opt['border'] . '"';
 		} else {
-			echo ' border="1"';
+			$out .= ' border="1"';
 		}
 
 		if (isset($Opt['cellpadding'])) {
-			echo ' cellpadding="' . $Opt['cellpadding'] . '"';
+			$out .= ' cellpadding="' . $Opt['cellpadding'] . '"';
 		}
 
 		if (isset($Opt['cellspacing'])) {
-			echo ' cellspacing="' . $Opt['cellspacing'] . '"';
+			$out .= ' cellspacing="' . $Opt['cellspacing'] . '"';
 		}
 
 		if (isset($Opt['align'])) {
-			echo ' align="' . $Opt['align'] . '"';
+			$out .= ' align="' . $Opt['align'] . '"';
 		}
 
 		if (isset($Opt['width'])) {
-			echo ' width="' . $Opt['width'] . '"';
+			$out .= ' width="' . $Opt['width'] . '"';
 		}
 
 		$Class = '';
@@ -660,29 +683,29 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 		if (isset($Opt['id'])) {
 			$Class .= ' id="' . $Opt['id'] . '"';
 		}
-		echo $Class;
+		$out .= $Class;
 
 		if (isset($Opt['summary'])) {
-			echo ' summary="' . $Opt['summary'] . '"';
+			$out .= ' summary="' . $Opt['summary'] . '"';
 		}
 
-		echo ">\n";
+		$out .= ">\n";
 
 		$this->SQLTagStarted = 'table';
 
 		if (isset($Opt['caption'])) {
-			echo ' <caption';
+			$out .= ' <caption';
 			if (isset($Opt['captionalign'])) {
-				echo ' align="' . $Opt['captionalign'] . '"';
+				$out .= ' align="' . $Opt['captionalign'] . '"';
 			}
-			echo "$Class>" . $Opt['caption'] . "</caption>\n";
+			$out .= "$Class>" . $Opt['caption'] . "</caption>\n";
 		}
 
 		// If there are no records in a record set...
 		if (!$this->SQLRecordSetRowCount) {
 			// print a message saying there are no records.
-			echo " <tr$Class><td$Class>There are no matching records.";
-			echo "</td></tr>\n";
+			$out .= " <tr$Class><td$Class>There are no matching records.";
+			$out .= "</td></tr>\n";
 
 		} else {
 			// else, there are some records, so let's display them.
@@ -697,7 +720,7 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 			// Grab field names and lay out column headers:
 			$VisibleFields = 0;
 			if (!isset($Opt['nohead'])) {
-				echo " <tr valign=\"top\"$Class>";
+				$out .= " <tr valign=\"top\"$Class>";
 				$this->SQLTagStarted = 'tr';
 				for ($FieldCounter = 0; $FieldCounter < $this->SQLRecordSetFieldCount; $FieldCounter++) {
 					$FieldNames[] = $this->FieldName('FieldName() had error '
@@ -705,11 +728,11 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 							$FileLine,  $FieldCounter);
 					if (!isset($Col[$FieldNames[$FieldCounter]]['hide'])) {
 						$VisibleFields++;
-						echo "<th scope=\"col\"$Class>";
-						echo "$FieldNames[$FieldCounter]</th>";
+						$out .= "<th scope=\"col\"$Class>";
+						$out .= "$FieldNames[$FieldCounter]</th>";
 					}
 				}
-				echo "</tr>\n";
+				$out .= "</tr>\n";
 			} else {
 				for ($FieldCounter = 0; $FieldCounter < $this->SQLRecordSetFieldCount; $FieldCounter++) {
 					$FieldNames[] = $this->FieldName('FieldName() had error '
@@ -723,7 +746,7 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 				   . "had error when RSATbl() was called by $FileName",
 				   $FileLine))
 			{
-				echo " <tr valign=\"top\"$Class>";
+				$out .= " <tr valign=\"top\"$Class>";
 				#~:~#
 				#~:~# For each field in the row...
 				for ($FieldCounter = 0;
@@ -734,27 +757,27 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 						if (isset($Col[$FieldNames[$FieldCounter]]['keyfield'])
 							&& isset($Col[$FieldNames[$FieldCounter]]['linkurl']))
 						{
-							echo "<td$Wrap$Class><a href=\"";
-							echo $Col[$FieldNames[$FieldCounter]]['linkurl'];
-							echo $Record[$Col[$FieldNames[$FieldCounter]]['keyfield']];
-							echo "\"$Class>";
-							echo $Record["$FieldNames[$FieldCounter]"];
-							echo "</a></td>";
+							$out .= "<td$Wrap$Class><a href=\"";
+							$out .= $Col[$FieldNames[$FieldCounter]]['linkurl'];
+							$out .= $Record[$Col[$FieldNames[$FieldCounter]]['keyfield']];
+							$out .= "\"$Class>";
+							$out .= $Record["$FieldNames[$FieldCounter]"];
+							$out .= "</a></td>";
 						} else {
-							echo "<td$Wrap$Class>";
+							$out .= "<td$Wrap$Class>";
 							if (isset($Record[$FieldNames[$FieldCounter]])
 								&& $Record[$FieldNames[$FieldCounter]] != '')
 							{
-								echo $Record[$FieldNames[$FieldCounter]];
+								$out .= $Record[$FieldNames[$FieldCounter]];
 							} else {
-								echo '&nbsp;';
+								$out .= '&nbsp;';
 							}
-							echo '</td>';
+							$out .= '</td>';
 						}
 					}
 				}
 				#~:~#
-				echo "</tr>\n";
+				$out .= "</tr>\n";
 				#~:~#
 			}
 
@@ -767,19 +790,20 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 				$CreditSQL->RunQuery('RunQuery() had error when RSATbl() was '
 						. "called by $FileName", $FileLine);
 
-				echo "<tr$Class><td colspan=\"$VisibleFields\"$Class>";
-				echo "Credits:\n";
+				$out .= "<tr$Class><td colspan=\"$VisibleFields\"$Class>";
+				$out .= "Credits:\n";
 				$CreditSQL->SQLTagStarted = 'td';
 				$CreditSQL->RecordSetAsList('RecordSetAsList() had error when '
 						. "RSATbl() was called by $FileName", $FileLine, $Opt);
-				echo "</td></tr>\n";
+				$out .= "</td></tr>\n";
 
 				$this->SQLCreditQueryString = '';
 			}
 		}
 
-		echo "</table>\n";
+		$out .= "</table>\n";
 		$this->SQLTagStarted = '';
+		return $out;
 	}
 
 	/**
@@ -790,6 +814,17 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 	 * @link http://www.SqlSolution.info/sql-man.htm#RecordSetAsXML
 	 */
 	public function RecordSetAsXML($FileName, $FileLine, $Opt = '', $Col = '') {
+		echo $this->GetRecordSetAsXML($FileName, $FileLine, $Opt, $Col);
+	}
+
+	/**
+	 * Returns your query results as XML
+	 *
+	 * @return string
+	 *
+	 * @link http://www.SqlSolution.info/sql-man.htm#GetRecordSetAsXML
+	 */
+	public function GetRecordSetAsXML($FileName, $FileLine, $Opt = '', $Col = '') {
 		if (is_array($Opt)) {
 			foreach ($Opt as $Key => $Val) {
 				$Opt[$Key] = htmlspecialchars($Val);
@@ -806,33 +841,34 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 			$Opt['recordtag'] = 'record';
 		}
 
+		$out = '';
 		switch (isset($Opt['prefix']) . ':' . isset($Opt['namespace'])) {
 			case '1:':
 			case '1:0':
 				$Opt['prefix'] = $Opt['prefix'] . ':';
-				echo '<' . $Opt['prefix'] . $Opt['settag'] . ">\n";
+				$out .= '<' . $Opt['prefix'] . $Opt['settag'] . ">\n";
 				break;
 			case ':1':
 			case '0:1':
-				echo "<{$Opt['settag']} xmlns=\"{$Opt['namespace']}\">\n";
+				$out .= "<{$Opt['settag']} xmlns=\"{$Opt['namespace']}\">\n";
 				$Opt['prefix'] = '';
 				break;
 			case '1:1':
-				echo "<{$Opt['settag']} xmlns:{$Opt['prefix']}=\"";
-				echo $Opt['namespace'] . "\">\n";
+				$out .= "<{$Opt['settag']} xmlns:{$Opt['prefix']}=\"";
+				$out .= $Opt['namespace'] . "\">\n";
 				$Opt['prefix'] = $Opt['prefix'] . ':';
 				break;
 			default:
-				echo '<' . $Opt['settag'] . ">\n";
+				$out .= '<' . $Opt['settag'] . ">\n";
 				$Opt['prefix'] = '';
 		}
 
 		$this->SQLTagStarted = $Opt['prefix'] . $Opt['settag'];
 
 		if (!$this->SQLRecordSetRowCount) {
-			echo '<' . $Opt['prefix'] . $Opt['recordtag'];
-			echo '>There are no matching records.</';
-			echo $Opt['prefix'] . $Opt['recordtag'] . ">\n";
+			$out .= '<' . $Opt['prefix'] . $Opt['recordtag'];
+			$out .= '>There are no matching records.</';
+			$out .= $Opt['prefix'] . $Opt['recordtag'] . ">\n";
 		} else {
 			$this->GoToRecord('GoToRecord() had error when RSAX() was called '
 					. "by $FileName", $FileLine);
@@ -848,7 +884,7 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 				   . "had error when RSAX() was called by $FileName",
 				   $FileLine))
 			{
-				echo ' <' . $Opt['prefix'] . $Opt['recordtag'] . '>';
+				$out .= ' <' . $Opt['prefix'] . $Opt['recordtag'] . '>';
 				for ($FieldCounter = 0;
 						$FieldCounter < $this->SQLRecordSetFieldCount;
 						$FieldCounter++) {
@@ -856,34 +892,35 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 						if (isset($Col[$FieldNames[$FieldCounter]]['keyfield'])
 							&& isset($Col[$FieldNames[$FieldCounter]]['linkurl']))
 						{
-							echo '<' . $Opt['prefix'];
-							echo "$FieldNames[$FieldCounter]><";
-							echo $Opt['prefix'] . 'a href="';
-							echo $Col[$FieldNames[$FieldCounter]]['linkurl'];
-							echo $Record[$Col[$FieldNames[$FieldCounter]]['keyfield']];
-							echo "\">" . $Record["$FieldNames[$FieldCounter]"];
-							echo "</{$Opt['prefix']}a></{$Opt['prefix']}";
-							echo "$FieldNames[$FieldCounter]>";
+							$out .= '<' . $Opt['prefix'];
+							$out .= "$FieldNames[$FieldCounter]><";
+							$out .= $Opt['prefix'] . 'a href="';
+							$out .= $Col[$FieldNames[$FieldCounter]]['linkurl'];
+							$out .= $Record[$Col[$FieldNames[$FieldCounter]]['keyfield']];
+							$out .= "\">" . $Record["$FieldNames[$FieldCounter]"];
+							$out .= "</{$Opt['prefix']}a></{$Opt['prefix']}";
+							$out .= "$FieldNames[$FieldCounter]>";
 						} else {
-							echo '<' . $Opt['prefix'];
-							echo "$FieldNames[$FieldCounter]>";
+							$out .= '<' . $Opt['prefix'];
+							$out .= "$FieldNames[$FieldCounter]>";
 							if (isset($Record[$FieldNames[$FieldCounter]])
 								&& $Record[$FieldNames[$FieldCounter]] != '')
 							{
-								echo $Record[$FieldNames[$FieldCounter]];
+								$out .= $Record[$FieldNames[$FieldCounter]];
 							} else {
-								echo '&nbsp;';
+								$out .= '&nbsp;';
 							}
-							echo '</' . $Opt['prefix'];
-							echo "$FieldNames[$FieldCounter]>";
+							$out .= '</' . $Opt['prefix'];
+							$out .= "$FieldNames[$FieldCounter]>";
 						}
 					}
 				}
-				echo '</' . $Opt['prefix'] . $Opt['recordtag'] . ">\n";
+				$out .= '</' . $Opt['prefix'] . $Opt['recordtag'] . ">\n";
 			}
 		}
 
-		echo '</' . $Opt['prefix'] . $Opt['settag'] . ">\n\n";
+		$out .= '</' . $Opt['prefix'] . $Opt['settag'] . ">\n\n";
+		return $out;
 	}
 
 	/**
@@ -895,6 +932,18 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 	 * @link http://www.SqlSolution.info/sql-man.htm#RecordSetAsTransform
 	 */
 	public function RecordSetAsTransform($FileName, $FileLine, $Opt = '') {
+		echo $this->GetRecordSetAsTransform($FileName, $FileLine, $Opt);
+	}
+
+	/**
+	 * Returns a standard normalized Record Set look like a spreadsheet
+	 * in an HTML table
+	 *
+	 * @return string
+	 *
+	 * @link http://www.SqlSolution.info/sql-man.htm#GetRecordSetAsTransform
+	 */
+	public function GetRecordSetAsTransform($FileName, $FileLine, $Opt = '') {
 		if (!isset($this->SQLVerticalQueryString)
 			|| !isset($this->SQLHorizontalQueryString))
 		{
@@ -990,28 +1039,28 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 					. 'queries and try again.');
 		}
 
-		echo '<table';
+		$out = '<table';
 
 		if (isset($Opt['border'])) {
-			echo ' border="' . $Opt['border'] . '"';
+			$out .= ' border="' . $Opt['border'] . '"';
 		} else {
-			echo ' border="1"';
+			$out .= ' border="1"';
 		}
 
 		if (isset($Opt['cellpadding'])) {
-			echo ' cellpadding="' . $Opt['cellpadding'] . '"';
+			$out .= ' cellpadding="' . $Opt['cellpadding'] . '"';
 		}
 
 		if (isset($Opt['cellspacing'])) {
-			echo ' cellspacing="' . $Opt['cellspacing'] . '"';
+			$out .= ' cellspacing="' . $Opt['cellspacing'] . '"';
 		}
 
 		if (isset($Opt['align'])) {
-			echo ' align="' . $Opt['align'] . '"';
+			$out .= ' align="' . $Opt['align'] . '"';
 		}
 
 		if (isset($Opt['width'])) {
-			echo ' width="' . $Opt['width'] . '"';
+			$out .= ' width="' . $Opt['width'] . '"';
 		}
 
 		$Class = '';
@@ -1021,29 +1070,29 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 		if (isset($Opt['id'])) {
 			$Class .= ' id="' . $Opt['id'] . '"';
 		}
-		echo $Class;
+		$out .= $Class;
 
-		echo ' summary="';
+		$out .= ' summary="';
 		if (isset($Opt['summary'])) {
-			echo $Opt['summary'] . '. ';
+			$out .= $Opt['summary'] . '. ';
 		}
 		if (isset($Opt['title'])) {
-			echo 'Top cell spans whole table, contains Title. ';
+			$out .= 'Top cell spans whole table, contains Title. ';
 		}
 		if ($this->SQLCreditQueryString) {
-			echo 'Bottom cell spans whole table, listing credits. ';
+			$out .= 'Bottom cell spans whole table, listing credits. ';
 		}
-		echo 'Rows contain ' . $Opt['verticallabel'] . '. Columns contain '
+		$out .= 'Rows contain ' . $Opt['verticallabel'] . '. Columns contain '
 				. $Opt['horizontallabel'] . ".\">\n";
 
 		$this->SQLTagStarted = 'table';
 
 		if (isset($Opt['caption'])) {
-			echo ' <caption';
+			$out .= ' <caption';
 			if (isset($Opt['captionalign'])) {
-				echo ' align="' . $Opt['captionalign'] . '"';
+				$out .= ' align="' . $Opt['captionalign'] . '"';
 			}
-			echo "$Class>" . $Opt['caption'] . "</caption>\n";
+			$out .= "$Class>" . $Opt['caption'] . "</caption>\n";
 		}
 
 		// Add line breaks as needed.
@@ -1056,19 +1105,19 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 
 		#..# HTML table header layout.
 		if (isset($Opt['title'])) {
-			echo " <tr$Class><td colspan=\"";
-			echo ($HorizontalSQL->SQLRecordSetRowCount + 2);
-			echo "\"$Class><h2$Class>" . $Opt['title'] . "</h2></td>\n";
+			$out .= " <tr$Class><td colspan=\"";
+			$out .= ($HorizontalSQL->SQLRecordSetRowCount + 2);
+			$out .= "\"$Class><h2$Class>" . $Opt['title'] . "</h2></td>\n";
 		}
-		echo " <tr$Class><td colspan=\"2\"";
+		$out .= " <tr$Class><td colspan=\"2\"";
 		if (isset($Opt['background'])) {
-			echo ' background="' . $Opt['background'] . '"';
+			$out .= ' background="' . $Opt['background'] . '"';
 		}
-		echo ' rowspan="2" alt="Blank cell for formatting purposes."';
-		echo "$Class>&nbsp;</td><th colspan=\"";
-		echo "$HorizontalSQL->SQLRecordSetRowCount\" align=\"left\"";
-		echo "scope=\"colgroup\"$Class>" . $Opt['horizontallabel'];
-		echo "</th></tr>\n <tr$Class>";
+		$out .= ' rowspan="2" alt="Blank cell for formatting purposes."';
+		$out .= "$Class>&nbsp;</td><th colspan=\"";
+		$out .= "$HorizontalSQL->SQLRecordSetRowCount\" align=\"left\"";
+		$out .= "scope=\"colgroup\"$Class>" . $Opt['horizontallabel'];
+		$out .= "</th></tr>\n <tr$Class>";
 		#..#
 		#..#  HTML column header layout.
 		$this->SQLTagStarted = 'tr';
@@ -1076,10 +1125,10 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 			   . "had error when RSATran() was called by $FileName",
 			   $FileLine))
 		{
-			echo "<th scope=\"col\"$Class>" . $Record[0] . '</th>';
+			$out .= "<th scope=\"col\"$Class>" . $Record[0] . '</th>';
 		}
 		#..#
-		echo "</tr>\n";
+		$out .= "</tr>\n";
 
 		#'.'#  Print HTML table rows.
 		for ($Vlocation = 0; $Vlocation < $VerticalSQL->SQLRecordSetRowCount; $Vlocation++) {
@@ -1092,27 +1141,27 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 			if ($Vlocation == 0) {
 				#'.'#  Yes, so print out the side header plus the
 				#'.'#  HTML table row title for the first record.
-				echo " <tr$Class><td rowspan=\"";
-				echo "$VerticalSQL->SQLRecordSetRowCount\" align=\"center\" ";
-				echo "valign=\"top\" scope=\"rowgroup\"$Class><b$Class>";
-				echo $Opt['verticallabel'] . "</b></td>\n      ";
-				echo "<td nowrap scope=\"row\"$Class><b$Class>";
-				echo $Record[0] . '</b></td>';
+				$out .= " <tr$Class><td rowspan=\"";
+				$out .= "$VerticalSQL->SQLRecordSetRowCount\" align=\"center\" ";
+				$out .= "valign=\"top\" scope=\"rowgroup\"$Class><b$Class>";
+				$out .= $Opt['verticallabel'] . "</b></td>\n      ";
+				$out .= "<td nowrap scope=\"row\"$Class><b$Class>";
+				$out .= $Record[0] . '</b></td>';
 			} else {
 				#'.'#  No, so just print out the HTML table row title
-				echo " <tr$Class><td nowrap scope=\"row\"$Class><b$Class>";
-				echo $Record[0] . '</b></td>';
+				$out .= " <tr$Class><td nowrap scope=\"row\"$Class><b$Class>";
+				$out .= $Record[0] . '</b></td>';
 			}
 
 			#'.'#  Print out just the quantity for the first HTML table column.
 			#'.'#  If field not blank...    print data...  else print space
-			echo "<td align=\"right\"$Class>";
+			$out .= "<td align=\"right\"$Class>";
 			if ($Record[1] != '') {
-				echo $Record[1];
+				$out .= $Record[1];
 			} else {
-				echo '&nbsp;';
+				$out .= '&nbsp;';
 			}
-			echo '</td>';
+			$out .= '</td>';
 
 			#'.'#
 			#'.'#  Print out quantities for the remaining HTML table columns.
@@ -1122,16 +1171,16 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 					. "error when RSATran() was called by $FileName",
 					$FileLine);
 				#'.'#  If field not blank...    print data...  else print space
-				echo "<td align=\"right\"$Class>";
+				$out .= "<td align=\"right\"$Class>";
 				if ($Record[1] != '') {
-					echo $Record[1];
+					$out .= $Record[1];
 				} else {
-					echo '&nbsp;';
+					$out .= '&nbsp;';
 				}
-				echo '</td>';
+				$out .= '</td>';
 			}
 			#'.'#
-			echo "</tr>\n";
+			$out .= "</tr>\n";
 		}
 
 		unset($Record);
@@ -1149,19 +1198,20 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 			$CreditSQL->RunQuery('RunQuery() had error when RSATran() was '
 					. "called by $FileName", $FileLine);
 
-			echo " <tr$Class><td colspan=\"$CreditWidth\"$Class>Credits:\n";
+			$out .= " <tr$Class><td colspan=\"$CreditWidth\"$Class>Credits:\n";
 			$CreditSQL->SQLTagStarted = 'td';
 			$CreditSQL->RecordSetAsList('RecordSetAsList() had error when '
 					. "RSATran() was called by $FileName", $FileLine, $Opt);
-			echo " </td></tr>\n";
+			$out .= " </td></tr>\n";
 
 			$this->SQLCreditQueryString = '';
 		}
 
-		echo "</table>\n";
+		$out .= "</table>\n";
 		$this->SQLTagStarted = '';
 		$this->SQLQueryString = '';
 		$this->SQLAlternateQueryString = '';
+		return $out;
 	}
 
 
@@ -1178,6 +1228,17 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 	 * @link http://www.SqlSolution.info/sql-man.htm#OptionListGenerator
 	 */
 	public function OptionListGenerator($FileName, $FileLine, $Opt = '') {
+		echo $this->GetOptionListGenerator($FileName, $FileLine, $Opt);
+	}
+
+	/**
+	 * Returns a list boxes for use in forms
+	 *
+	 * @return string
+	 *
+	 * @link http://www.SqlSolution.info/sql-man.htm#GetOptionListGenerator
+	 */
+	public function GetOptionListGenerator($FileName, $FileLine, $Opt = '') {
 		if (is_array($Opt)) {
 			foreach ($Opt as $Key => $Val) {
 				switch ($Key) {
@@ -1240,31 +1301,31 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 				. $FileName, $FileLine);
 
 		// Start the list box
-		echo "\n\n<select";
+		$out = "\n\n<select";
 
 		$Class = '';
 		if (isset($Opt['class'])) {
 			$Class .= ' class="' . $Opt['class'] . '"';
 		}
-		echo $Class;
+		$out .= $Class;
 
 		if (isset($Opt['id'])) {
-			echo ' id="' . $Opt['id'] . '"';
+			$out .= ' id="' . $Opt['id'] . '"';
 		}
 
 		if (isset($Opt['size'])) {
-			echo ' size="' . $Opt['size'] . '"';
+			$out .= ' size="' . $Opt['size'] . '"';
 		}
 
 		if (isset($Opt['multiple']) && $Opt['multiple'] == 'Y') {
-			echo ' multiple name="' . $Opt['name'] . "[]\">\n";
+			$out .= ' multiple name="' . $Opt['name'] . "[]\">\n";
 			if (!is_array($Opt['default'])) {
 				$Opt['default'] = array($Opt['default']);
 			} else {
 				reset($Opt['default']);
 			}
 		} else {
-			echo ' name="' . $Opt['name'] . "\">\n";
+			$out .= ' name="' . $Opt['name'] . "\">\n";
 			if (is_array($Opt['default'])) {
 				reset($Opt['default']);
 				$Opt['default'] = array(current($Opt['default']));
@@ -1275,11 +1336,11 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 
 		if (isset($Opt['add'])) {
 			foreach ($Opt['add'] as $Value => $Visible) {
-				echo ' <option value="' . htmlspecialchars($Value) . '"';
+				$out .= ' <option value="' . htmlspecialchars($Value) . '"';
 				if (in_array($Value, $Opt['default'])) {
-					echo ' selected="selected"';
+					$out .= ' selected="selected"';
 				}
-				echo "$Class>" . htmlspecialchars($Visible) . "</option>\n";
+				$out .= "$Class>" . htmlspecialchars($Visible) . "</option>\n";
 			}
 		}
 
@@ -1287,22 +1348,23 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 
 		// Now, get down to business...
 		if (!$this->SQLRecordSetRowCount) {
-			echo " <option value=\"\"$Class>No Matching Records</option>\n";
+			$out .= " <option value=\"\"$Class>No Matching Records</option>\n";
 		} else {
 			while ($Record = $this->RecordAsAssocArray('RecordAsAssocArray() '
 				   . "had error when OLG() was called by $FileName",
 				   $FileLine))
 			{
-				echo ' <option value="' . $Record[$Opt['keyfield']] . '"';
+				$out .= ' <option value="' . $Record[$Opt['keyfield']] . '"';
 				if (in_array($Record[$Opt['keyfield']], $Opt['default'])) {
-					echo ' selected="selected"';
+					$out .= ' selected="selected"';
 				}
-				echo "$Class>{$Record[$Opt['visiblefield']]}</option>\n";
+				$out .= "$Class>{$Record[$Opt['visiblefield']]}</option>\n";
 			}
 
 		}
 
-		echo "</select>\n\n";
+		$out .= "</select>\n\n";
+		return $out;
 	}
 
 	/**
@@ -1313,6 +1375,17 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 	 * @link http://www.SqlSolution.info/sql-man.htm#InputListGenerator
 	 */
 	public function InputListGenerator($FileName, $FileLine, $Opt = '') {
+		echo $this->GetInputListGenerator($FileName, $FileLine, $Opt);
+	}
+
+	/**
+	 * Returns lists of check boxes and radio buttons for use in forms
+	 *
+	 * @return string
+	 *
+	 * @link http://www.SqlSolution.info/sql-man.htm#GetInputListGenerator
+	 */
+	public function GetInputListGenerator($FileName, $FileLine, $Opt = '') {
 		if (is_array($Opt)) {
 			foreach ($Opt as $Key => $Val) {
 				switch ($Key) {
@@ -1392,33 +1465,33 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 
 		$this->RunQuery('RunQuery() had error when ILG() was called by '
 				. $FileName, $FileLine);
-		// debug tool -> //    echo htmlspecialchars($this->SQLQueryString);
+		// debug tool -> //    $out .= htmlspecialchars($this->SQLQueryString);
 
 		// Start the table
-		echo '<table';
+		$out = '<table';
 
 		if (isset($Opt['border'])) {
-			echo ' border="' . $Opt['border'] . '"';
+			$out .= ' border="' . $Opt['border'] . '"';
 		} else {
-			echo ' border="2"';
+			$out .= ' border="2"';
 		}
 
 		if (isset($Opt['cellpadding'])) {
-			echo ' cellpadding="' . $Opt['cellpadding'] . '"';
+			$out .= ' cellpadding="' . $Opt['cellpadding'] . '"';
 		}
 
 		if (isset($Opt['cellspacing'])) {
-			echo ' cellspacing="' . $Opt['cellspacing'] . '"';
+			$out .= ' cellspacing="' . $Opt['cellspacing'] . '"';
 		}
 
 		if (isset($Opt['align'])) {
-			echo ' align="' . $Opt['align'] . '"';
+			$out .= ' align="' . $Opt['align'] . '"';
 		}
 
 		if (isset($Opt['width'])) {
-			echo ' width="' . $Opt['width'] . '"';
+			$out .= ' width="' . $Opt['width'] . '"';
 		} else {
-			echo ' width="100%"';
+			$out .= ' width="100%"';
 		}
 
 		$Class = '';
@@ -1428,13 +1501,13 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 		if (isset($Opt['id'])) {
 			$Class .= ' id="' . $Opt['id'] . '"';
 		}
-		echo $Class;
+		$out .= $Class;
 
 		if (isset($Opt['summary'])) {
-			echo ' summary="' . $Opt['summary'] . '"';
+			$out .= ' summary="' . $Opt['summary'] . '"';
 		}
 
-		echo ">\n";
+		$out .= ">\n";
 
 		if ($Opt['type'] == 'checkbox') {
 			$Bracket = '[]';
@@ -1456,7 +1529,7 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 			}
 		}
 
-		echo " <tr valign=\"top\"$Class>\n";
+		$out .= " <tr valign=\"top\"$Class>\n";
 
 		if (empty($Opt['add'])) {
 			$Opt['add'] = array();
@@ -1477,12 +1550,12 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 		}
 
 		if (!$Items) {
-			echo '  <td><input type="' . $Opt['type'] . '" name="';
-			echo $Opt['name'] . "$Bracket\" value=\"\" />";
-			echo "No Matching Records</td>\n";
+			$out .= '  <td><input type="' . $Opt['type'] . '" name="';
+			$out .= $Opt['name'] . "$Bracket\" value=\"\" />";
+			$out .= "No Matching Records</td>\n";
 		} else {
 			for ($ItemCounter = 1;  $ItemCounter <= $Items;) {
-				echo "  <td nowrap width=\"$ColumnWidth%\"$Class>\n            ";
+				$out .= "  <td nowrap width=\"$ColumnWidth%\"$Class>\n            ";
 				$this->SQLTagStarted = 'td';
 
 				for ($RowCounter = 1;  $RowCounter <= $Break;) {
@@ -1497,25 +1570,25 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 								= htmlspecialchars($Visible);
 					}
 
-					echo '<input type="' . $Opt['type'] . '" name="';
-					echo $Opt['name'] . "$Bracket\" value=\"";
-					echo $Record[$Opt['keyfield']] . '"';
+					$out .= '<input type="' . $Opt['type'] . '" name="';
+					$out .= $Opt['name'] . "$Bracket\" value=\"";
+					$out .= $Record[$Opt['keyfield']] . '"';
 					if ($Opt['all'] == 'Y' || in_array(
 							$Record[$Opt['keyfield']], $Opt['default'])) {
-						echo ' checked="checked"';
+						$out .= ' checked="checked"';
 					}
-					echo "$Class />";
+					$out .= "$Class />";
 
 					if (isset($Opt['linkurl'])) {
-						echo '<a href="' . $Opt['linkurl'];
-						echo $Record[$Opt['keyfield']] . "\"$Class>";
-						echo $Record[$Opt['visiblefield']] . "</a>\n    <br />";
+						$out .= '<a href="' . $Opt['linkurl'];
+						$out .= $Record[$Opt['keyfield']] . "\"$Class>";
+						$out .= $Record[$Opt['visiblefield']] . "</a>\n    <br />";
 					} else {
-						echo $Record[$Opt['visiblefield']] . "\n    <br />";
+						$out .= $Record[$Opt['visiblefield']] . "\n    <br />";
 					}
 
 					if ($ItemCounter == $Items) {
-						echo "\n  </td>\n";
+						$out .= "\n  </td>\n";
 						break 2;
 					}
 
@@ -1523,13 +1596,14 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 					$RowCounter++;
 				}
 
-				echo "\n  </td>\n";
+				$out .= "\n  </td>\n";
 				$RowCounter = 1;
 			}
 		}
 
-		echo "</tr>\n</table>\n\n";
+		$out .= "</tr>\n</table>\n\n";
 		$this->SQLTagStarted = '';
+		return $out;
 	}
 
 	/**
@@ -1654,6 +1728,18 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 	 * @link http://www.SqlSolution.info/sql-man.htm#RecordSetAsInput
 	 */
 	public function RecordSetAsInput($FileName, $FileLine, $Opt = '', $Col = '') {
+		echo $this->GetRecordSetAsInput($FileName, $FileLine, $Opt, $Col);
+	}
+
+	/**
+	 * Returns an entire Record Set as an HTML table with input fields
+	 * for use on a form
+	 *
+	 * @return string
+	 *
+	 * @link http://www.SqlSolution.info/sql-man.htm#GetRecordSetAsInput
+	 */
+	public function GetRecordSetAsInput($FileName, $FileLine, $Opt = '', $Col = '') {
 		if (is_array($Opt)) {
 			foreach ($Opt as $Key => $Val) {
 				if ($Key != 'default') {
@@ -1728,28 +1814,28 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 		}
 
 		// Start the table
-		echo '<table';
+		$out = '<table';
 
 		if (isset($Opt['border'])) {
-			echo ' border="' . $Opt['border'] . '"';
+			$out .= ' border="' . $Opt['border'] . '"';
 		} else {
-			echo ' border="1"';
+			$out .= ' border="1"';
 		}
 
 		if (isset($Opt['cellpadding'])) {
-			echo ' cellpadding="' . $Opt['cellpadding'] . '"';
+			$out .= ' cellpadding="' . $Opt['cellpadding'] . '"';
 		}
 
 		if (isset($Opt['cellspacing'])) {
-			echo ' cellspacing="' . $Opt['cellspacing'] . '"';
+			$out .= ' cellspacing="' . $Opt['cellspacing'] . '"';
 		}
 
 		if (isset($Opt['align'])) {
-			echo ' align="' . $Opt['align'] . '"';
+			$out .= ' align="' . $Opt['align'] . '"';
 		}
 
 		if (isset($Opt['width'])) {
-			echo ' width="' . $Opt['width'] . '"';
+			$out .= ' width="' . $Opt['width'] . '"';
 		}
 
 		$Class = '';
@@ -1759,28 +1845,28 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 		if (isset($Opt['id'])) {
 			$Class .= ' id="' . $Opt['id'] . '"';
 		}
-		echo $Class;
+		$out .= $Class;
 
 		if (isset($Opt['summary'])) {
-			echo ' summary="' . $Opt['summary'] . '"';
+			$out .= ' summary="' . $Opt['summary'] . '"';
 		}
 
-		echo ">\n";
+		$out .= ">\n";
 
 		$this->SQLTagStarted = 'table';
 
 		if (isset($Opt['caption'])) {
-			echo ' <caption';
+			$out .= ' <caption';
 			if (isset($Opt['captionalign'])) {
-				echo ' align="' . $Opt['captionalign'] . '"';
+				$out .= ' align="' . $Opt['captionalign'] . '"';
 			}
-			echo "$Class>" . $Opt['caption'] . "</caption>\n";
+			$out .= "$Class>" . $Opt['caption'] . "</caption>\n";
 		}
 
 		// Now, get down to business
 		if (!$this->SQLRecordSetRowCount) {
-			echo " <tr$Class><td$Class>There are no matching records.";
-			echo "</td></tr>\n";
+			$out .= " <tr$Class><td$Class>There are no matching records.";
+			$out .= "</td></tr>\n";
 		} else {
 			$this->GoToRecord('GoToRecord() had error when RSAI() was called '
 					. "by $FileName", $FileLine);
@@ -1791,8 +1877,8 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 
 			// Lay out column headers
 			if (!isset($Opt['nohead'])) {
-				echo " <tr valign=\"top\"$Class><th scope=\"col\"$Class>";
-				echo $Opt['inputheader'] . "</th>";
+				$out .= " <tr valign=\"top\"$Class><th scope=\"col\"$Class>";
+				$out .= $Opt['inputheader'] . "</th>";
 				$this->SQLTagStarted = 'tr';
 				for ($FieldCounter = 0;
 						$FieldCounter < $this->SQLRecordSetFieldCount;
@@ -1801,11 +1887,11 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 							. "when RSAI() was called by $FileName",
 							$FileLine, $FieldCounter);
 					if (!isset($Col[$FieldNames[$FieldCounter]]['hide'])) {
-						echo "<th scope=\"col\"$Class>";
-						echo "$FieldNames[$FieldCounter]</th>";
+						$out .= "<th scope=\"col\"$Class>";
+						$out .= "$FieldNames[$FieldCounter]</th>";
 					}
 				}
-				echo "</tr>\n";
+				$out .= "</tr>\n";
 			} else {
 				for ($FieldCounter = 0;
 						$FieldCounter < $this->SQLRecordSetFieldCount;
@@ -1822,42 +1908,42 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 				   . "had error when RSAI() was called by $FileName",
 				   $FileLine))
 			{
-				echo " <tr valign=\"top\"$Class>";
+				$out .= " <tr valign=\"top\"$Class>";
 
 				#~:~# Display the form input field.
-				echo "<td align=\"center\"$Wrap$Class><input name=\"";
-				echo $Opt['name'];
+				$out .= "<td align=\"center\"$Wrap$Class><input name=\"";
+				$out .= $Opt['name'];
 
 				switch ($Opt['type']) {
 					case 'text':
-						echo '[' . $Record[$Opt['keyfield']] . ']"';
-						echo 'type="text" value="';
+						$out .= '[' . $Record[$Opt['keyfield']] . ']"';
+						$out .= 'type="text" value="';
 						if (key($Opt['default']) == $Record[$Opt['keyfield']]) {
-							echo substr(current($Opt['default']),
+							$out .= substr(current($Opt['default']),
 									0, $Opt['maxlength']) ;
 							next($Opt['default']);
 						}
-						echo '" size="' . $Opt['size'] . '" maxlength="';
-						echo $Opt['maxlength'] . '"';
+						$out .= '" size="' . $Opt['size'] . '" maxlength="';
+						$out .= $Opt['maxlength'] . '"';
 						break;
 					case 'radio':
-						echo '" type="radio" value="';
-						echo $Record[$Opt['keyfield']] . '"';
+						$out .= '" type="radio" value="';
+						$out .= $Record[$Opt['keyfield']] . '"';
 						if ($Opt['all'] == 'Y' || in_array(
 								$Record[$Opt['keyfield']], $Opt['default'])) {
-							echo ' checked="checked"';
+							$out .= ' checked="checked"';
 						}
 						break;
 					default:
-						echo '[]" type="checkbox" value="';
-						echo $Record[$Opt['keyfield']] . '"';
+						$out .= '[]" type="checkbox" value="';
+						$out .= $Record[$Opt['keyfield']] . '"';
 						if ($Opt['all'] == 'Y' || in_array(
 								$Record[$Opt['keyfield']], $Opt['default'])) {
-							echo ' checked="checked"';
+							$out .= ' checked="checked"';
 						}
 				}
 
-				echo "$Class /></td>";
+				$out .= "$Class /></td>";
 
 				#~:~# For each field in the RecordSet...
 				for ($FieldCounter = 0;
@@ -1868,33 +1954,34 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 						if (isset($Col[$FieldNames[$FieldCounter]]['keyfield'])
 							&& isset($Col[$FieldNames[$FieldCounter]]['linkurl']))
 						{
-							echo "<td scope=\"row\"$Wrap$Class><a href=\"";
-							echo $Col[$FieldNames[$FieldCounter]]['linkurl'];
-							echo $Record[$Col[$FieldNames[$FieldCounter]]['keyfield']];
-							echo "\"$Class>";
-							echo $Record["$FieldNames[$FieldCounter]"];
-							echo "</a></td>";
+							$out .= "<td scope=\"row\"$Wrap$Class><a href=\"";
+							$out .= $Col[$FieldNames[$FieldCounter]]['linkurl'];
+							$out .= $Record[$Col[$FieldNames[$FieldCounter]]['keyfield']];
+							$out .= "\"$Class>";
+							$out .= $Record["$FieldNames[$FieldCounter]"];
+							$out .= "</a></td>";
 						} else {
-							echo "<td$Wrap$Class>";
+							$out .= "<td$Wrap$Class>";
 							if (isset($Record[$FieldNames[$FieldCounter]])
 								&& $Record[$FieldNames[$FieldCounter]] != '')
 							{
-								echo $Record[$FieldNames[$FieldCounter]];
+								$out .= $Record[$FieldNames[$FieldCounter]];
 							} else {
-								echo '&nbsp;';
+								$out .= '&nbsp;';
 							}
-							echo '</td>';
+							$out .= '</td>';
 						}
 					}
 				}
 				#~:~#
-				echo "</tr>\n";
+				$out .= "</tr>\n";
 				#~:~#
 			}
 		}
 
-		echo "</table>\n";
+		$out .= "</table>\n";
 		$this->SQLTagStarted = '';
+		return $out;
 	}
 }
 
