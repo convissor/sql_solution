@@ -1989,6 +1989,7 @@ class SQLSolution_General extends SQLSolution_ErrorHandler {
 /**
  * The error handler class
  *
+ * @package SQLSolution
  * @author Daniel Convissor <danielc@analysisandsolutions.com>
  * @copyright The Analysis and Solutions Company, 2001-2011
  * @license http://www.analysisandsolutions.com/software/license.htm Simple Public License
