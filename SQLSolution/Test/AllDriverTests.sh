@@ -5,7 +5,7 @@
 # Usage:  ./AllDriverTests.sh
 #
 # Author: Daniel Convissor <danielc@analysisandsolutions.com>
-# Copyright: The Analysis and Solutions Company, 2001-2010
+# Copyright: The Analysis and Solutions Company, 2001-2011
 # License: http://www.analysisandsolutions.com/software/license.htm Simple Public License
 # Link: http://www.analysisandsolutions.com/software/sql/sql.htm
 
