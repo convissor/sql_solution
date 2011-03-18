@@ -23,38 +23,18 @@ abstract class SQLSolution_Test_Driver_Bundle {
 	 * @return void
 	 */
 	public static function checkSkipDbms($test_class, $property) {
-		$user_class = self::getUserClassFromTestClass($test_class);
-		$sql = new $user_class;
+		$sql = new $GLOBALS['SQLSOLUTION_TEST_USER_CLASS'];
 		if (empty($sql->{$property})) {
-			die("Skip: $user_class::\$$property is empty\n");
+			die("Skip: {$GLOBALS['SQLSOLUTION_TEST_USER_CLASS']}::\$$property is empty\n");
 		}
-	}
-
-	/**
-	 * Converts test class names to user class names
-	 *
-	 * @param string $test_class  the SQLSolution_Test_Driver_<DBMS>Test class name
-	 * @return string  the SQLSolution_<DBMS>User class name
-	 */
-	public static function getUserClassFromTestClass($test_class) {
-		return preg_replace('/.*_([a-z0-9]+)Test$/i',
-				'SQLSolution_\1User', $test_class);
 	}
 
 	/**
 	 * PHPUnit's function for setting tests to be run
 	 *
-	 * We also have it set $GLOBALS['SQLSOLUTION_TEST_USER_CLASS'].
-	 *
 	 * @return PHPUnit_Framework_TestSuite  the tests to be run
 	 */
 	public static function suite() {
-		/**
-		 * @global string  the user class name for use by the driver tests
-		 */
-		$GLOBALS['SQLSOLUTION_TEST_USER_CLASS'] =
-				self::getUserClassFromTestClass(get_called_class());
-
 		$suite = new PHPUnit_Framework_TestSuite('SQL Solution Driver Bundle');
 
 		$suite->addTestSuite('SQLSolution_Test_Driver_Bundle_Constructor');

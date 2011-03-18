@@ -14,6 +14,7 @@
  */
 class SQLSolution_Test_Driver_MySQLiTest extends SQLSolution_Test_Driver_Bundle {
 	public static function suite() {
+		$GLOBALS['SQLSOLUTION_TEST_USER_CLASS'] = 'SQLSolution_MySQLiUser';
 		parent::checkSkipDbms(__CLASS__, 'SQLDbName');
 		return parent::suite();
 	}
