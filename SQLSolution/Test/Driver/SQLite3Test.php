@@ -14,6 +14,9 @@
  */
 class SQLSolution_Test_Driver_SQLite3Test extends SQLSolution_Test_Driver_Bundle {
 	public static function suite() {
+		if (!defined('SQLITE3_OPEN_READWRITE')) {
+			die("Skip: This version of PHP does not support SQLite3.\n");
+		}
 		parent::checkSkipDbms(__CLASS__, 'SQLDbName');
 		return parent::suite();
 	}
