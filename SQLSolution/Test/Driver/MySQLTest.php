@@ -14,6 +14,9 @@
  */
 class SQLSolution_Test_Driver_MySQLTest extends SQLSolution_Test_Driver_Bundle {
 	public static function suite() {
+		if (!extension_loaded('mysql')) {
+			die("Skip: this extension is not loaded.\n");
+		}
 		$GLOBALS['SQLSOLUTION_TEST_USER_CLASS'] = 'SQLSolution_MySQLUser';
 		parent::checkSkipDbms(__CLASS__, 'SQLDbName');
 		return parent::suite();

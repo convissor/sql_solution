@@ -14,6 +14,9 @@
  */
 class SQLSolution_Test_Driver_ODBCTest extends SQLSolution_Test_Driver_Bundle {
 	public static function suite() {
+		if (!extension_loaded('odbc')) {
+			die("Skip: this extension is not loaded.\n");
+		}
 		$GLOBALS['SQLSOLUTION_TEST_USER_CLASS'] = 'SQLSolution_ODBCUser';
 		parent::checkSkipDbms(__CLASS__, 'SQLDSN');
 		return parent::suite();
