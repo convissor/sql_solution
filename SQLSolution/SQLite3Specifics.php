@@ -93,7 +93,7 @@ class SQLSolution_SQLite3Specifics extends SQLSolution_Customizations {
 	 * @since Method available since release 7.0
 	 */
 	public function CheckConnection() {
-		return is_a($this->SQLConnection, 'SQLite3');
+		return $this->SQLConnection instanceof SQLite3;
 	}
 
 

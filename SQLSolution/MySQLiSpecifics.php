@@ -100,7 +100,7 @@ class SQLSolution_MySQLiSpecifics extends SQLSolution_Customizations {
 	 * @since Method available since release 7.0
 	 */
 	public function CheckConnection() {
-		return is_a($this->SQLConnection, 'mysqli');
+		return $this->SQLConnection instanceof mysqli;
 	}
 
 
