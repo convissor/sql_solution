@@ -9,7 +9,7 @@
  * @license http://www.analysisandsolutions.com/software/license.htm Simple Public License
  * @link http://www.analysisandsolutions.com/software/sql/sql.htm
  */
-abstract class SQLSolution_Test_General extends PHPUnit_Extensions_OutputTestCase {
+abstract class SQLSolution_Test_General extends PHPUnit_Framework_TestCase {
 	/**
 	 * The SQL Solution class being tested
 	 * @var object

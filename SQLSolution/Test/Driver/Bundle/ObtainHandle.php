@@ -9,7 +9,7 @@
  * @license http://www.analysisandsolutions.com/software/license.htm Simple Public License
  * @link http://www.analysisandsolutions.com/software/sql/sql.htm
  */
-class SQLSolution_Test_Driver_Bundle_ObtainHandle extends PHPUnit_Extensions_OutputTestCase {
+class SQLSolution_Test_Driver_Bundle_ObtainHandle extends PHPUnit_Framework_TestCase {
 	/**
 	 * The SQL Solution class being tested
 	 * @var object
